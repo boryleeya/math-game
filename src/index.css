@@ -60,3 +60,13 @@ input {
 .animate-bounce-in {
   animation: bounceIn 0.6s ease-out forwards;
 }
+
+@keyframes popItem {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-pop {
+  animation: popItem 0.3s ease-out forwards;
+  opacity: 0;
+}

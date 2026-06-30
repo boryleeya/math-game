@@ -1,9 +1,11 @@
+import { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { QuestionDisplay } from '../components/QuestionDisplay'
 import { NumberButton } from '../components/NumberButton'
 import { FeedbackMessage } from '../components/FeedbackMessage'
 import { LevelCompleteMessage } from '../components/LevelCompleteMessage'
 import { GameCompleteMessage } from '../components/GameCompleteMessage'
+import { AnswerExplanation } from '../components/AnswerExplanation'
 import { useMathGame } from '../hooks/useMathGame'
 import { difficultyOptions } from '../utils/mathUtils'
 
@@ -11,6 +13,7 @@ export default function MathGame() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const difficulty = parseInt(searchParams.get('difficulty') || '10')
+  const [showExplanation, setShowExplanation] = useState(false)
 
   const {
     num1,
@@ -86,12 +89,18 @@ export default function MathGame() {
         </div>
 
         {showFeedback && isCorrect !== null && (
-          <div className="flex justify-center mb-6">
+          <div className="flex flex-col justify-center mb-6 gap-3">
             <FeedbackMessage
               isCorrect={isCorrect}
               correctAnswer={correctAnswer}
               onNext={handleNextQuestion}
             />
+            <button
+              onClick={() => setShowExplanation(true)}
+              className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg font-bold transition-all text-sm shadow-md"
+            >
+              解析答案
+            </button>
           </div>
         )}
 
@@ -124,6 +133,15 @@ export default function MathGame() {
 
       {showGameComplete && (
         <GameCompleteMessage onRestart={handleGoToFirstLevel} />
+      )}
+
+      {showExplanation && (
+        <AnswerExplanation
+          num1={num1}
+          num2={num2}
+          correctAnswer={correctAnswer}
+          onClose={() => setShowExplanation(false)}
+        />
       )}
     </div>
   )

@@ -39,20 +39,20 @@ export function FeedbackMessage({ isCorrect, correctAnswer, onNext }: FeedbackMe
       pop-in
       ${isCorrect ? 'bg-green-100 border-4 border-green-400' : 'bg-red-100 border-4 border-red-400'}
       w-full
-      max-w-[320px] sm:max-w-[360px]
+      max-w-[340px] sm:max-w-[400px] md:max-w-[500px]
     `}>
-      <div className="flex flex-col items-center gap-3 sm:gap-4">
-        <span className="text-4xl sm:text-5xl md:text-6xl">{message.emoji}</span>
+      <div className="flex flex-col items-center gap-2 sm:gap-3 md:gap-4">
+        <span className="text-3xl sm:text-4xl md:text-5xl">{message.emoji}</span>
         <p className={`
-          text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-center leading-tight
+          text-sm sm:text-base md:text-lg font-bold text-center leading-tight
           ${isCorrect ? 'text-green-700' : 'text-red-700'}
         `}>
           {message.text}
         </p>
         
         {!isCorrect && (
-          <div className="bg-white rounded-xl px-6 py-3 shadow-md">
-            <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-600">
+          <div className="bg-white rounded-xl px-4 py-2 shadow-md">
+            <span className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-600">
               {correctAnswer}
             </span>
           </div>
@@ -62,21 +62,21 @@ export function FeedbackMessage({ isCorrect, correctAnswer, onNext }: FeedbackMe
           onClick={onNext}
           className={`
             ${isCorrect ? 'bg-green-400 hover:bg-green-500' : 'bg-blue-400 hover:bg-blue-500'}
-            text-white font-bold text-base sm:text-lg md:text-xl lg:text-2xl
-            px-6 sm:px-8 py-3 sm:py-4
+            text-white font-bold text-sm sm:text-base md:text-lg
+            px-4 sm:px-6 py-2 sm:py-3
             rounded-full
             shadow-lg
             transform transition-all duration-200
             hover:scale-105
             active:scale-95
             flex items-center gap-2
-            min-h-[56px]
+            min-h-[44px] sm:min-h-[48px]
             justify-center
             w-full
           `}
         >
           <span>下一题</span>
-          <span className="text-xl sm:text-2xl">👉</span>
+          <span className="text-lg sm:text-xl">👉</span>
         </button>
       </div>
     </div>
