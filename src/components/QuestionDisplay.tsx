@@ -27,21 +27,22 @@ export function QuestionDisplay({ num1, num2, correctAnswer, isCorrect, showFeed
       mx-auto mb-6
     `}>
       <div className="flex flex-col items-center justify-center gap-3 sm:gap-4">
-        <div className="flex items-center gap-3 sm:gap-4 md:gap-6 lg:gap-8">
-          <span className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold text-blue-500">
+        <div className="flex items-center justify-center gap-2 sm:gap-3 md:gap-4 lg:gap-5 flex-wrap">
+          <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-blue-500 min-w-[40px] sm:min-w-[50px] md:min-w-[60px] text-center">
             {num1}
           </span>
-          <span className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-red-400">
+          <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-red-400">
             {operator}
           </span>
-          <span className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold text-green-500">
+          <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-green-500 min-w-[40px] sm:min-w-[50px] md:min-w-[60px] text-center">
             {num2}
           </span>
-          <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-purple-400">
+          <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-purple-400">
             =
           </span>
           <span className={`
-            text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold
+            text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold
+            min-w-[40px] sm:min-w-[50px] md:min-w-[60px] text-center
             ${showFeedback && isCorrect ? 'text-green-500' : ''}
             ${showFeedback && !isCorrect ? 'text-red-500' : ''}
             ${!showFeedback ? 'text-gray-400' : ''}
