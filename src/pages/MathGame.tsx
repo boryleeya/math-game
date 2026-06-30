@@ -8,12 +8,20 @@ import { GameCompleteMessage } from '../components/GameCompleteMessage'
 import { AnswerExplanation } from '../components/AnswerExplanation'
 import { useMathGame } from '../hooks/useMathGame'
 import { difficultyOptions } from '../utils/mathUtils'
+import { isSoundEnabled, setSoundEnabled } from '../utils/soundUtils'
 
 export default function MathGame() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const difficulty = parseInt(searchParams.get('difficulty') || '10')
   const [showExplanation, setShowExplanation] = useState(false)
+  const [soundOn, setSoundOn] = useState(isSoundEnabled())
+
+  const toggleSound = () => {
+    const newSoundState = !soundOn
+    setSoundOn(newSoundState)
+    setSoundEnabled(newSoundState)
+  }
 
   const {
     num1,
@@ -62,13 +70,22 @@ export default function MathGame() {
   return (
     <div className="min-h-screen py-4 px-3 sm:px-4">
       <div className="max-w-md mx-auto w-full">
-        <button
-          onClick={handleBack}
-          className="mb-4 flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-colors"
-        >
-          <span className="text-xl sm:text-2xl">←</span>
-          <span className="text-base sm:text-lg font-bold">返回选择</span>
-        </button>
+        <div className="flex items-center justify-between mb-4">
+          <button
+            onClick={handleBack}
+            className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-colors"
+          >
+            <span className="text-xl sm:text-2xl">←</span>
+            <span className="text-base sm:text-lg font-bold">返回选择</span>
+          </button>
+          <button
+            onClick={toggleSound}
+            className="px-3 py-2 rounded-lg font-bold transition-all text-sm shadow-md bg-gray-100 hover:bg-gray-200"
+            title={soundOn ? '关闭音效' : '打开音效'}
+          >
+            {soundOn ? '🔊' : '🔇'}
+          </button>
+        </div>
 
         <div className="text-center mb-4">
           <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-700">
@@ -79,32 +96,23 @@ export default function MathGame() {
           </p>
         </div>
 
-        <div className="flex justify-center mb-6">
-          <QuestionDisplay
-            num1={num1}
-            num2={num2}
-            isCorrect={isCorrect}
-            showFeedback={showFeedback}
-          />
-        </div>
+        <QuestionDisplay
+          num1={num1}
+          num2={num2}
+          correctAnswer={correctAnswer}
+          isCorrect={isCorrect}
+          showFeedback={showFeedback}
+        />
 
         {showFeedback && isCorrect !== null && (
-          <div className="flex flex-col justify-center mb-6 gap-3">
-            <FeedbackMessage
-              isCorrect={isCorrect}
-              correctAnswer={correctAnswer}
-              onNext={handleNextQuestion}
-            />
-            <button
-              onClick={() => setShowExplanation(true)}
-              className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg font-bold transition-all text-sm shadow-md"
-            >
-              解析答案
-            </button>
-          </div>
+          <FeedbackMessage
+            isCorrect={isCorrect}
+            correctAnswer={correctAnswer}
+            onNext={handleNextQuestion}
+          />
         )}
 
-        <div className={`grid ${getColumns()} gap-2 sm:gap-3 justify-items-center w-full`}>
+        <div className={`grid ${getColumns()} gap-2 sm:gap-3 justify-items-center w-full my-6`}>
           {options.map((num, index) => (
             <div
               key={`${num}-${index}`}
@@ -121,6 +129,13 @@ export default function MathGame() {
             </div>
           ))}
         </div>
+
+        <button
+          onClick={() => setShowExplanation(true)}
+          className="w-full px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg font-bold transition-all text-sm shadow-md"
+        >
+          解析答案
+        </button>
       </div>
 
       {showLevelComplete && (

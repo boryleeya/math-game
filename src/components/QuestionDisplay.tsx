@@ -1,12 +1,13 @@
 interface QuestionDisplayProps {
   num1: number
   num2: number
+  correctAnswer: number
   isCorrect: boolean | null
   showFeedback: boolean
   operator?: string
 }
 
-export function QuestionDisplay({ num1, num2, isCorrect, showFeedback, operator = '+' }: QuestionDisplayProps) {
+export function QuestionDisplay({ num1, num2, correctAnswer, isCorrect, showFeedback, operator = '+' }: QuestionDisplayProps) {
   const getAnimationClass = () => {
     if (!showFeedback) return ''
     if (isCorrect) return 'animate-bounce'
@@ -23,6 +24,7 @@ export function QuestionDisplay({ num1, num2, isCorrect, showFeedback, operator 
       ${getAnimationClass()}
       w-full
       max-w-[340px] sm:max-w-[400px] md:max-w-[500px]
+      mx-auto mb-6
     `}>
       <div className="flex flex-col items-center justify-center gap-3 sm:gap-4">
         <div className="flex items-center gap-3 sm:gap-4 md:gap-6 lg:gap-8">
@@ -35,9 +37,6 @@ export function QuestionDisplay({ num1, num2, isCorrect, showFeedback, operator 
           <span className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold text-green-500">
             {num2}
           </span>
-        </div>
-        
-        <div className="flex items-center gap-3 sm:gap-4">
           <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-purple-400">
             =
           </span>
@@ -45,8 +44,9 @@ export function QuestionDisplay({ num1, num2, isCorrect, showFeedback, operator 
             text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold
             ${showFeedback && isCorrect ? 'text-green-500' : ''}
             ${showFeedback && !isCorrect ? 'text-red-500' : ''}
+            ${!showFeedback ? 'text-gray-400' : ''}
           `}>
-            ?
+            {showFeedback ? correctAnswer : '?'}
           </span>
         </div>
       </div>

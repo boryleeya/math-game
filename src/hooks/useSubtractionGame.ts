@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { generateRandomSubtraction, generateAnswerOptions, difficultyOptions } from '../utils/mathUtils'
+import { playCorrectSound, playWrongSound } from '../utils/soundUtils'
 
 interface GameState {
   num1: number
@@ -52,6 +53,14 @@ export function useSubtractionGame(difficulty: number) {
     if (gameState.showFeedback) return
 
     const isCorrect = answer === gameState.correctAnswer
+    
+    // 播放音效
+    if (isCorrect) {
+      playCorrectSound()
+    } else {
+      playWrongSound()
+    }
+    
     const newCorrectCount = isCorrect ? gameState.correctCount + 1 : 0
 
     const currentIndex = difficultyOptions.findIndex(d => d.value === difficulty)

@@ -17,16 +17,18 @@ export function AnswerExplanation({
 }: AnswerExplanationProps) {
   const getColumns = (count: number) => {
     if (count <= 10) return 5
-    if (count <= 20) return 7
-    if (count <= 40) return 10
-    return 10
+    if (count <= 20) return 6
+    if (count <= 40) return 8
+    if (count <= 60) return 10
+    return 12
   }
 
   const getItemSize = (count: number) => {
-    if (count <= 10) return 'w-8 h-8 sm:w-10 sm:h-10'
-    if (count <= 20) return 'w-6 h-6 sm:w-8 sm:h-8'
-    if (count <= 40) return 'w-5 h-5 sm:w-6 sm:h-6'
-    return 'w-4 h-4 sm:w-5 sm:h-5'
+    if (count <= 10) return 'w-8 h-8'
+    if (count <= 20) return 'w-6 h-6'
+    if (count <= 40) return 'w-5 h-5'
+    if (count <= 60) return 'w-4 h-4'
+    return 'w-3 h-3'
   }
 
   const isSubtraction = operator === '-'
@@ -39,14 +41,14 @@ export function AnswerExplanation({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-4">
-      <div className="bg-white rounded-2xl p-6 sm:p-8 max-w-lg w-full shadow-2xl animate-bounce-in">
-        <div className="text-center mb-6">
+      <div className="bg-white rounded-2xl p-6 max-w-lg w-full shadow-2xl animate-bounce-in max-h-[80vh] flex flex-col">
+        <div className="text-center mb-4">
           <h3 className="text-xl sm:text-2xl font-bold text-gray-800">
             答案解析
           </h3>
         </div>
 
-        <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-4 sm:p-6 mb-6">
+        <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-4 mb-4 overflow-y-auto flex-1">
           <div className="text-center text-2xl sm:text-3xl font-bold text-gray-700 mb-6">
             {num1} {operator} {num2} = {correctAnswer}
           </div>
@@ -58,10 +60,10 @@ export function AnswerExplanation({
                   被减数：{num1} 个
                 </div>
                 <div
-                  className="grid gap-1 justify-items-center mx-auto"
+                  className="grid gap-1 justify-items-center mx-auto overflow-x-auto"
                   style={{
-                    gridTemplateColumns: `repeat(${cols1}, 1fr)`,
-                    maxWidth: 'fit-content',
+                    gridTemplateColumns: `repeat(${cols1}, minmax(0, 1fr))`,
+                    maxWidth: '100%',
                   }}
                 >
                   {items1.map((_, index) => (
@@ -79,10 +81,10 @@ export function AnswerExplanation({
                   减去：{num2} 个
                 </div>
                 <div
-                  className="grid gap-1 justify-items-center mx-auto"
+                  className="grid gap-1 justify-items-center mx-auto overflow-x-auto"
                   style={{
-                    gridTemplateColumns: `repeat(${cols2}, 1fr)`,
-                    maxWidth: 'fit-content',
+                    gridTemplateColumns: `repeat(${cols2}, minmax(0, 1fr))`,
+                    maxWidth: '100%',
                   }}
                 >
                   {items2.map((_, index) => (
@@ -100,10 +102,10 @@ export function AnswerExplanation({
                   剩下：{correctAnswer} 个
                 </div>
                 <div
-                  className="grid gap-1 justify-items-center mx-auto"
+                  className="grid gap-1 justify-items-center mx-auto overflow-x-auto"
                   style={{
-                    gridTemplateColumns: `repeat(${colsTotal}, 1fr)`,
-                    maxWidth: 'fit-content',
+                    gridTemplateColumns: `repeat(${colsTotal}, minmax(0, 1fr))`,
+                    maxWidth: '100%',
                   }}
                 >
                   {[...Array(correctAnswer)].map((_, index) => (
@@ -118,60 +120,56 @@ export function AnswerExplanation({
             </div>
           ) : (
             <div className="space-y-4">
-              <div className="flex items-center justify-center gap-4 sm:gap-8 mb-6">
-                <div className="flex-1">
-                  <div className="text-center text-lg font-bold text-blue-600 mb-3">
-                    {num1}
-                  </div>
-                  <div
-                    className="grid gap-1 justify-items-center"
-                    style={{
-                      gridTemplateColumns: `repeat(${cols1}, 1fr)`,
-                    }}
-                  >
-                    {items1.map((_, index) => (
-                      <div
-                        key={`num1-${index}`}
-                        className={`${getItemSize(num1)} rounded-lg bg-gradient-to-br from-blue-400 to-blue-600 shadow-md animate-pop`}
-                        style={{ animationDelay: `${index * 0.03}s` }}
-                      />
-                    ))}
-                  </div>
+              <div className="text-center">
+                <div className="text-lg font-bold text-blue-600 mb-3">
+                  第一个加数：{num1} 个
                 </div>
-
-                <div className="text-2xl sm:text-3xl font-bold text-gray-600 min-w-[30px] text-center">
-                  +
+                <div
+                  className="grid gap-1 justify-items-center mx-auto overflow-x-auto"
+                  style={{
+                    gridTemplateColumns: `repeat(${cols1}, minmax(0, 1fr))`,
+                    maxWidth: '100%',
+                  }}
+                >
+                  {items1.map((_, index) => (
+                    <div
+                      key={`num1-${index}`}
+                      className={`${getItemSize(num1)} rounded-lg bg-gradient-to-br from-blue-400 to-blue-600 shadow-md animate-pop`}
+                      style={{ animationDelay: `${index * 0.03}s` }}
+                    />
+                  ))}
                 </div>
+              </div>
 
-                <div className="flex-1">
-                  <div className="text-center text-lg font-bold text-green-600 mb-3">
-                    {num2}
-                  </div>
-                  <div
-                    className="grid gap-1 justify-items-center"
-                    style={{
-                      gridTemplateColumns: `repeat(${cols2}, 1fr)`,
-                    }}
-                  >
-                    {items2.map((_, index) => (
-                      <div
-                        key={`num2-${index}`}
-                        className={`${getItemSize(num2)} rounded-lg bg-gradient-to-br from-green-400 to-green-600 shadow-md animate-pop`}
-                        style={{ animationDelay: `${(num1 + index) * 0.03}s` }}
-                      />
-                    ))}
-                  </div>
+              <div className="text-center">
+                <div className="text-lg font-bold text-green-600 mb-3">
+                  第二个加数：{num2} 个
+                </div>
+                <div
+                  className="grid gap-1 justify-items-center mx-auto overflow-x-auto"
+                  style={{
+                    gridTemplateColumns: `repeat(${cols2}, minmax(0, 1fr))`,
+                    maxWidth: '100%',
+                  }}
+                >
+                  {items2.map((_, index) => (
+                    <div
+                      key={`num2-${index}`}
+                      className={`${getItemSize(num2)} rounded-lg bg-gradient-to-br from-green-400 to-green-600 shadow-md animate-pop`}
+                      style={{ animationDelay: `${(num1 + index) * 0.03}s` }}
+                    />
+                  ))}
                 </div>
               </div>
 
               <div className="border-t-2 border-dashed border-gray-300 pt-4">
-                <div className="text-center text-lg font-bold text-gray-700 mb-2">
-                  合并后：{correctAnswer} 个方块
+                <div className="text-center text-lg font-bold text-purple-600 mb-3">
+                  合并后：{correctAnswer} 个
                 </div>
                 <div
-                  className="grid gap-1 justify-items-center"
+                  className="grid gap-1 justify-items-center mx-auto overflow-x-auto"
                   style={{
-                    gridTemplateColumns: `repeat(${colsTotal}, 1fr)`,
+                    gridTemplateColumns: `repeat(${colsTotal}, minmax(0, 1fr))`,
                     maxWidth: '100%',
                   }}
                 >
