@@ -48,7 +48,8 @@ src/
 │   ├── useMathGame.ts          # 加法游戏Hook
 │   └── useSubtractionGame.ts    # 减法游戏Hook
 ├── utils/
-│   └── mathUtils.ts             # 数学工具函数
+│   ├── mathUtils.ts            # 数学工具函数
+│   └── soundUtils.ts           # 音效工具函数
 ├── App.tsx                      # 主应用组件
 ├── main.tsx                     # 入口文件
 └── index.css                   # 全局样式
@@ -73,6 +74,13 @@ src/
 | correctCount | number | 连续答对计数 |
 | showLevelComplete | boolean | 是否显示关卡完成弹窗 |
 | showGameComplete | boolean | 是否显示全部通关弹窗 |
+| soundOn | boolean | 音效开关状态 |
+| showExplanation | boolean | 是否显示答案解析弹窗 |
+
+### 6.3 Sound Global State
+| State | Type | Description |
+|-------|------|-------------|
+| soundEnabled | boolean | 全局音效开关状态（默认开启） |
 
 ## 7. Data Model
 无需数据库，纯前端生成随机数据
@@ -130,6 +138,16 @@ num2 = num1 - result（确保 num2 >= 1）
 答错题立即重置连续答对计数为0
 通关后可选择进入下一关或继续练习当前关卡
 完成最后一关（100以内）后显示全部通关提示
+```
+
+### 8.5 音效播放规则
+```
+使用 Web Audio API 在运行时生成音效
+正确答案: 播放 C5-E5-G5 上升音调（欢快）
+错误答案: 播放 G4-F4-D4 下降音调（低沉）
+音效持续时间: 0.5秒
+音效开关: 全局状态管理，可随时打开或关闭
+关闭音效时不播放任何音效
 ```
 
 ## 9. Answer Explanation Graphics
