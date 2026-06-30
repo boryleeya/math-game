@@ -3,9 +3,10 @@ interface QuestionDisplayProps {
   num2: number
   isCorrect: boolean | null
   showFeedback: boolean
+  operator?: string
 }
 
-export function QuestionDisplay({ num1, num2, isCorrect, showFeedback }: QuestionDisplayProps) {
+export function QuestionDisplay({ num1, num2, isCorrect, showFeedback, operator = '+' }: QuestionDisplayProps) {
   const getAnimationClass = () => {
     if (!showFeedback) return ''
     if (isCorrect) return 'animate-bounce'
@@ -29,7 +30,7 @@ export function QuestionDisplay({ num1, num2, isCorrect, showFeedback }: Questio
             {num1}
           </span>
           <span className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-red-400">
-            +
+            {operator}
           </span>
           <span className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold text-green-500">
             {num2}

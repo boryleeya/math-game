@@ -17,11 +17,18 @@ export const difficultyOptions: DifficultyOption[] = [
   { label: '100以内', value: 100, color: 'bg-blue-400 hover:bg-blue-500' },
 ]
 
-export function generateRandomNumbers(maxSum: number): { num1: number; num2: number; sum: number } {
+export function generateRandomNumbers(maxSum: number): { num1: number; num2: number; result: number } {
   const num1 = Math.floor(Math.random() * (maxSum - 1)) + 1
   const maxNum2 = maxSum - num1
   const num2 = Math.floor(Math.random() * maxNum2) + 1
-  return { num1, num2, sum: num1 + num2 }
+  return { num1, num2, result: num1 + num2 }
+}
+
+export function generateRandomSubtraction(maxResult: number): { num1: number; num2: number; result: number } {
+  const result = Math.floor(Math.random() * (maxResult - 1)) + 1
+  const num1 = result + Math.floor(Math.random() * (maxResult - result)) + 1
+  const num2 = num1 - result
+  return { num1, num2, result }
 }
 
 export function generateNumberArray(max: number): number[] {

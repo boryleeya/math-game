@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { generateRandomNumbers, generateAnswerOptions, difficultyOptions } from '../utils/mathUtils'
+import { generateRandomSubtraction, generateAnswerOptions, difficultyOptions } from '../utils/mathUtils'
 
 interface GameState {
   num1: number
@@ -14,7 +14,7 @@ interface GameState {
   showGameComplete: boolean
 }
 
-export function useMathGame(difficulty: number) {
+export function useSubtractionGame(difficulty: number) {
   const [gameState, setGameState] = useState<GameState>({
     num1: 0,
     num2: 0,
@@ -29,7 +29,7 @@ export function useMathGame(difficulty: number) {
   })
 
   const generateNewQuestion = useCallback(() => {
-    const { num1, num2, result } = generateRandomNumbers(difficulty)
+    const { num1, num2, result } = generateRandomSubtraction(difficulty)
     const options = generateAnswerOptions(result, difficulty, 10)
 
     setGameState(prev => ({
@@ -54,14 +54,11 @@ export function useMathGame(difficulty: number) {
     const isCorrect = answer === gameState.correctAnswer
     const newCorrectCount = isCorrect ? gameState.correctCount + 1 : 0
 
-    // 判断是否通关
     const currentIndex = difficultyOptions.findIndex(d => d.value === difficulty)
     const isLastLevel = currentIndex === difficultyOptions.length - 1
 
     if (isCorrect && newCorrectCount >= 10) {
-      // 连续答对10题
       if (isLastLevel) {
-        // 最后一关，显示全部通关
         setGameState(prev => ({
           ...prev,
           selectedAnswer: answer,
@@ -71,7 +68,6 @@ export function useMathGame(difficulty: number) {
           showGameComplete: true,
         }))
       } else {
-        // 显示关卡完成
         setGameState(prev => ({
           ...prev,
           selectedAnswer: answer,
