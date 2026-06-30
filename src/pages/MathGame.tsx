@@ -2,8 +2,10 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { QuestionDisplay } from '../components/QuestionDisplay'
 import { NumberButton } from '../components/NumberButton'
 import { FeedbackMessage } from '../components/FeedbackMessage'
+import { LevelCompleteMessage } from '../components/LevelCompleteMessage'
+import { GameCompleteMessage } from '../components/GameCompleteMessage'
 import { useMathGame } from '../hooks/useMathGame'
-import { generateNumberArray, generateAnswerOptions } from '../utils/mathUtils'
+import { difficultyOptions } from '../utils/mathUtils'
 
 export default function MathGame() {
   const navigate = useNavigate()
@@ -17,23 +19,41 @@ export default function MathGame() {
     selectedAnswer,
     isCorrect,
     showFeedback,
+    options,
+    correctCount,
+    showLevelComplete,
+    showGameComplete,
     handleAnswerSelect,
     handleNextQuestion,
+    handleNextLevel,
+    handleRestart,
   } = useMathGame(difficulty)
-
-  const isSmallRange = difficulty <= 20
-  const numbers = isSmallRange 
-    ? generateNumberArray(difficulty)
-    : generateAnswerOptions(correctAnswer, difficulty, difficulty <= 50 ? 10 : 12)
 
   const handleBack = () => {
     navigate('/')
   }
 
+  const handleGoToNextLevel = () => {
+    const currentIndex = difficultyOptions.findIndex(d => d.value === difficulty)
+    if (currentIndex < difficultyOptions.length - 1) {
+      const nextDifficulty = difficultyOptions[currentIndex + 1].value
+      handleNextLevel()
+      navigate(`/game?difficulty=${nextDifficulty}`)
+    }
+  }
+
+  const handleGoToFirstLevel = () => {
+    handleRestart()
+    navigate('/game?difficulty=10')
+  }
+
+  const handleStayCurrentLevel = () => {
+    handleNextLevel()
+    handleNextQuestion()
+  }
+
   const getColumns = () => {
-    if (difficulty <= 20) return 'grid-cols-4 sm:grid-cols-5'
-    if (difficulty <= 50) return 'grid-cols-5'
-    return 'grid-cols-6'
+    return 'grid-cols-5'
   }
 
   return (
@@ -51,6 +71,9 @@ export default function MathGame() {
           <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-700">
             {difficulty}以内加法
           </h2>
+          <p className="text-sm sm:text-base text-gray-500 mt-1">
+            连续答对: {correctCount}/10
+          </p>
         </div>
 
         <div className="flex justify-center mb-6">
@@ -73,9 +96,9 @@ export default function MathGame() {
         )}
 
         <div className={`grid ${getColumns()} gap-2 sm:gap-3 justify-items-center w-full`}>
-          {numbers.map((num, index) => (
+          {options.map((num, index) => (
             <div
-              key={num}
+              key={`${num}-${index}`}
               className="pop-in w-full"
               style={{ animationDelay: `${index * 0.02}s` }}
             >
@@ -90,6 +113,18 @@ export default function MathGame() {
           ))}
         </div>
       </div>
+
+      {showLevelComplete && (
+        <LevelCompleteMessage
+          currentDifficulty={difficulty}
+          onNextLevel={handleGoToNextLevel}
+          onStayCurrentLevel={handleStayCurrentLevel}
+        />
+      )}
+
+      {showGameComplete && (
+        <GameCompleteMessage onRestart={handleGoToFirstLevel} />
+      )}
     </div>
   )
 }
