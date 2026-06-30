@@ -88,8 +88,9 @@ Error generating stack: `+o.message+`
       w-full
       max-w-[340px] sm:max-w-[400px] md:max-w-[500px]
       mx-auto mb-6
-    `,children:v.jsx("div",{className:"flex flex-col items-center justify-center gap-3 sm:gap-4",children:v.jsxs("div",{className:"flex items-center gap-3 sm:gap-4 md:gap-6 lg:gap-8",children:[v.jsx("span",{className:"text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold text-blue-500",children:e}),v.jsx("span",{className:"text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-red-400",children:o}),v.jsx("span",{className:"text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold text-green-500",children:t}),v.jsx("span",{className:"text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-purple-400",children:"="}),v.jsx("span",{className:`
-            text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold
+    `,children:v.jsx("div",{className:"flex flex-col items-center justify-center gap-3 sm:gap-4",children:v.jsxs("div",{className:"flex items-center justify-center gap-2 sm:gap-3 md:gap-4 lg:gap-5 flex-wrap",children:[v.jsx("span",{className:"text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-blue-500 min-w-[40px] sm:min-w-[50px] md:min-w-[60px] text-center",children:e}),v.jsx("span",{className:"text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-red-400",children:o}),v.jsx("span",{className:"text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-green-500 min-w-[40px] sm:min-w-[50px] md:min-w-[60px] text-center",children:t}),v.jsx("span",{className:"text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-purple-400",children:"="}),v.jsx("span",{className:`
+            text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold
+            min-w-[40px] sm:min-w-[50px] md:min-w-[60px] text-center
             ${l&&r?"text-green-500":""}
             ${l&&!r?"text-red-500":""}
             ${l?"":"text-gray-400"}
