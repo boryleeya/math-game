@@ -1,7 +1,21 @@
 // 音效工具函数 - 使用 Web Audio API 生成简单的音效
 
 let audioContext: AudioContext | null = null
-let soundEnabled = true // 默认开启音效
+const STORAGE_KEY_SOUND = 'math_game_sound_enabled'
+
+function getStoredSoundState(): boolean {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY_SOUND)
+    if (stored !== null) {
+      return stored === 'true'
+    }
+  } catch (e) {
+    console.warn('Failed to read localStorage:', e)
+  }
+  return true
+}
+
+let soundEnabled = getStoredSoundState()
 
 function getAudioContext(): AudioContext {
   if (!audioContext) {
@@ -18,6 +32,11 @@ export function isSoundEnabled(): boolean {
 // 设置音效开关状态
 export function setSoundEnabled(enabled: boolean) {
   soundEnabled = enabled
+  try {
+    localStorage.setItem(STORAGE_KEY_SOUND, String(enabled))
+  } catch (e) {
+    console.warn('Failed to write localStorage:', e)
+  }
 }
 
 // 播放正确答案的音效 - 欢快的上升音调
